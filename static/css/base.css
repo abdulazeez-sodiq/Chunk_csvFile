@@ -1,0 +1,15 @@
+html {
+    box-sizing: border-box;
+}
+
+::after, ::before {
+    box-sizing: inherit;
+}
+
+.body_style{
+    background-color: #111;
+}
+
+#main-sector{
+    background-image: url("{% static 'images/sector_img1.jpg' %}");
+}

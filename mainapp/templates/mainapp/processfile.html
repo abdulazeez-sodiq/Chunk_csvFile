@@ -1,0 +1,59 @@
+{% extends "mainapp/base.html" %}
+{% block content %}
+<div class="mainbody_style">
+    <section id="main-sector">
+
+        <p>f i l e _ c h u n k e r</p>
+
+        <form class="form-class" action="/processfile" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="display: inline;">
+                <div class="form-item">
+                    <label for="formFile">Upload your file:</label>
+                    <input class="form-control form-control" type="file" name="formFile" id="formFile" required disabled>
+                </div>
+
+                <div class="rowsperbatch">
+                    <label for="chunksize">Rows per batch:</label>
+                    <input class="form-control form-control" type="number" min="0" name="chunksize" id="chunksize" required
+                        disabled>
+                </div>
+
+                <div class="file-submit">
+                    <input type="submit" class="btn btn-danger" value="Chunk File" style="padding: 20px;" disabled>
+                </div>
+            </div>
+        </form>
+
+
+    </section>
+    {% if messages %}
+    <ul class="messages" style="padding-left: 0px;">
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="details">
+        <h1>Hello, {{username}}</h1>
+    </div>
+
+    
+    {% if downloadFlag %}
+
+    <div class="downloadbutton">
+        <p>{{filelink}}  <a style="margin-top: 60px; margin-bottom: 10px;"class="btn btn-secondary" href="{{filelink}}" download>Download your file here</a></p>
+        <a class="btn btn-primary" href="/download" style="margin-left: 200px;">Done</a>
+    </div>
+    {% endif %}
+
+    <div class="details">
+        <a style="margin-top: 10px;" class="btn btn-danger" href="/signout">signout</a>
+    </div>
+
+</div>
+{% endblock content %}

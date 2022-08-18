@@ -1,0 +1,73 @@
+{% extends "mainapp/base.html" %}
+{% block content %}
+<div class="mainbody_style">
+    <section id="main-sector">
+        <p>f i l e _ c h u n k e r</p>
+        <form class="form-class" action="/processfile" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="display: inline;">
+                <div class="form-item">
+                    <label for="formFile">Upload your file:</label>
+                    <input class="form-control form-control" type="file" name="formFile" id="formFile" required
+                        disabled>
+                </div>
+
+                <div class="rowsperbatch">
+                    <label for="chunksize">Rows per batch:</label>
+                    <input class="form-control form-control" type="number" min="0" name="chunksize" id="chunksize" required
+                        disabled>
+                </div>
+
+                <div class="file-submit">
+                    <input type="submit" class="btn btn-danger" value="Chunk File" style="padding: 20px;" disabled>
+                </div>
+            </div>
+        </form>
+        {% if downloadFlag %}
+        <div class="downloadbutton">
+            <a class="btn btn-secondary" href="{{link}}" download>download your file here</a>
+        </div>
+        {% endif %}
+
+        {% if messages %}
+        <ul class="messages" style="padding-left: 0px;">
+            {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    </section>
+
+    <div class="details">
+        <h1>Enter your details:</h1>
+    </div>
+
+    <div class="my-formcontainer">
+        <form action="/" method="post" class="my-form">
+            {% csrf_token %}
+            <div style="width: 20%; display: block;">
+                <label form="username">Username:</label>
+                <input type="text" class="form-content" id="username" name="username" placeholder="ronaldo123" required>
+            </div>
+
+            <div style="width: 20%; display: block">
+                <label form="password">Password:</label>
+                <input minlength='8' type="password" class="form-content" minlength='8' id="password" name="password"
+                    placeholder="***********" required>
+            </div>
+
+            <div class="clr"></div>
+
+            <div class="submit-row">
+                <input type="submit" value="Sign In">
+            </div>
+        </form>
+    </div>
+    <p style="margin-left: 40px;">Already have an account? Click this <a href="/signup">link</a> to sign in.</p>
+</div>
+</div>
+{% endblock content %}

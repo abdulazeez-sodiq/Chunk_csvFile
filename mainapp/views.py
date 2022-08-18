@@ -83,8 +83,9 @@ def processfile(request):
         # downloadFlag='True'
         # return redirect('home')
     filelink="./media/" + Username + "/" + Username + "_" +  file_name + "chunked_CSV.zip"
+    filename = Username + "_" +  file_name + "chunked_CSV.zip"
     
-    return render(request, 'mainapp/processfile.html', {"username":Username, "filelink":filelink, "downloadFlag":downloadFlag})
+    return render(request, 'mainapp/processfile.html', {"username":Username, "filelink":filelink, "filename":filename, "downloadFlag":downloadFlag})
 
 def signup(request):
     if request.method == "POST":

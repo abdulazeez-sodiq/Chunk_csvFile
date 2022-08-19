@@ -42,7 +42,8 @@ def processfile(request):
         # fs.save(uploaded_file.name, uploaded_file)
         # print(uploaded_file.name)
         # print(uploaded_file.size)
-        new_field=file(file=uploaded_file)
+        usercsv_field=usercsv.objects.get(Email=email)
+        new_field=file(file=uploaded_file, user=usercsv_field)
         new_field.save()
 
 
@@ -59,19 +60,19 @@ def processfile(request):
         # filelink=files
         file_n = str(uploaded_file).replace(" ", "_")
         file_name = file_n.replace(",", "")
-        with open ('./media/'+ file_name, "r") as f:
-            csvFile=f.read()
-            print(csvFile)
+        # with open ('./media/'+ file_name, "r") as f:
+        #     csvFile=f.read()
+        #     print(csvFile)
 
-        with open(Username + "/" + Username + "_" + "tempfile" + ".csv" , "w") as tempfile:
-            tempfile.write(csvFile)
+        # with open(Username + "/" + Username + "_" + "tempfile" + ".csv" , "w") as tempfile:
+        #     tempfile.write(csvFile)
 
 
         batch_no=1
         chunk_size = int(chunksize)
 
         with ZipFile("./media/" + Username + "/" + Username + "_" +  file_name + "chunked_CSV.zip", "w") as newZip:
-            for chunk in pd.read_csv(Username + "/" + Username + "_" + "tempfile" + ".csv", chunksize=chunk_size):
+            for chunk in pd.read_csv('./media/'+ file_name, chunksize=chunk_size, encoding="unicode_escape"):
                 chunk.to_csv(Username + "/" + str(batch_no) + "_" + file_name, index=False)
                 batch_no += 1
             for i in range(1, batch_no):
@@ -174,6 +175,9 @@ def signout(request):
         shutil.rmtree("./media/" + Username + "/")
         os.remove("./media/" + file_name)
         shutil.rmtree("./" + Username)
+        new_field=usercsv.objects.get(Email=email)
+        files=new_field.file_set.all()
+        files.delete()
         downloadFlag=''
 
 
@@ -189,5 +193,8 @@ def download(request):
     shutil.rmtree("./media/" + Username + "/")
     os.remove("./media/" + file_name)
     shutil.rmtree("./" + Username)
+    new_field=usercsv.objects.get(Email=email)
+    files=new_field.file_set.all()
+    files.delete()
 
     return redirect('home')

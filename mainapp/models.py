@@ -2,9 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-class temp(models.Model):
-    csc = models.FileField()
-
 class usercsv(models.Model):
     Email = models.EmailField(max_length=200, null=True)
 

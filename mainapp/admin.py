@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import temp, file, usercsv
+from .models import usercsv, file
 
 # Register your models here.
-admin.site.register(temp)
 
 admin.site.register(usercsv)
 
